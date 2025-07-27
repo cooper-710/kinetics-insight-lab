@@ -38,7 +38,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ selectedAthlete, onAthlete
         <div className="flex items-center justify-between mb-8 animate-fade-in">
           <div>
             <h1 className="text-4xl font-bold bg-gradient-to-r from-primary-glow to-accent bg-clip-text text-transparent mb-2">
-              NextGen Performance
+              Sequence Bio Lab Performance
             </h1>
             <p className="text-muted-foreground text-lg">Elite Force Plate Analytics Platform</p>
           </div>
