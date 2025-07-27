@@ -6,8 +6,9 @@ import { MetricCard } from './MetricCard';
 import { ForceTimeChart } from './ForceTimeChart';
 import { TrendChart } from './TrendChart';
 import { AsymmetryHeatmap } from './AsymmetryHeatmap';
+import { CSVUpload } from './CSVUpload';
 import { athletes, performanceData, historicalData, type Athlete, type ForceMetrics } from '@/data/dummyData';
-import { Upload, FileText, Download, TrendingUp } from 'lucide-react';
+import { Download, TrendingUp, FileText } from 'lucide-react';
 
 interface DashboardProps {
   selectedAthlete: Athlete | null;
@@ -16,10 +17,12 @@ interface DashboardProps {
 
 export const Dashboard: React.FC<DashboardProps> = ({ selectedAthlete, onAthleteChange }) => {
   const [currentSession, setCurrentSession] = useState<ForceMetrics | null>(null);
+  const [uploadedSessions, setUploadedSessions] = useState<ForceMetrics[]>([]);
 
-  // Get athlete's latest performance data
+  // Combine original data with uploaded sessions
+  const allPerformanceData = [...performanceData, ...uploadedSessions];
   const athleteData = selectedAthlete 
-    ? performanceData.filter(data => data.athleteId === selectedAthlete.id)
+    ? allPerformanceData.filter(data => data.athleteId === selectedAthlete.id)
     : [];
 
   const latestPerformance = athleteData.length > 0 ? athleteData[athleteData.length - 1] : null;
@@ -27,6 +30,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ selectedAthlete, onAthlete
     current.jumpHeight > (best?.jumpHeight || 0) ? current : best, latestPerformance);
 
   const athleteHistory = selectedAthlete ? historicalData[selectedAthlete.id as keyof typeof historicalData] : [];
+
+  const handleDataUploaded = (newData: ForceMetrics) => {
+    setUploadedSessions(prev => [...prev, newData]);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background-secondary to-background relative overflow-hidden">
@@ -60,10 +67,10 @@ export const Dashboard: React.FC<DashboardProps> = ({ selectedAthlete, onAthlete
               </SelectContent>
             </Select>
             
-            <Button className="btn-primary">
-              <Upload className="w-4 h-4 mr-2" />
-              Upload Data
-            </Button>
+            <CSVUpload 
+              selectedAthlete={selectedAthlete}
+              onDataUploaded={handleDataUploaded}
+            />
             
             <Button variant="outline" className="glass-card border-primary/20">
               <Download className="w-4 h-4 mr-2" />
