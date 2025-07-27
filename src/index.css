@@ -2,41 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/* NextGen Performance Design System - Cutting-edge force plate analytics platform
+All colors MUST be HSL for proper theming.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Dark gradient theme - Navy to Electric Blue */
+    --background: 220 30% 8%;
+    --background-secondary: 220 25% 12%;
+    --foreground: 210 15% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Glassmorphism cards with transparency */
+    --card: 220 20% 15%;
+    --card-foreground: 210 15% 95%;
+    --card-border: 210 40% 25%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Popover styling */
+    --popover: 220 25% 12%;
+    --popover-foreground: 210 15% 95%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Electric blue primary theme */
+    --primary: 200 100% 50%;
+    --primary-glow: 200 100% 60%;
+    --primary-foreground: 220 30% 8%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary with subtle blue tint */
+    --secondary: 220 20% 20%;
+    --secondary-foreground: 210 15% 90%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted tones for less emphasis */
+    --muted: 220 15% 18%;
+    --muted-foreground: 210 10% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Accent colors for highlights */
+    --accent: 280 60% 55%;
+    --accent-foreground: 210 15% 95%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    /* Success and warning states */
+    --success: 120 60% 50%;
+    --warning: 45 95% 55%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 210 15% 95%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Interactive elements */
+    --border: 220 20% 25%;
+    --input: 220 20% 18%;
+    --ring: 200 100% 50%;
 
     --radius: 0.5rem;
+
+    /* Gradients for NextGen Performance */
+    --gradient-primary: linear-gradient(135deg, hsl(220 30% 8%), hsl(200 60% 20%));
+    --gradient-card: linear-gradient(135deg, hsl(220 20% 15% / 0.9), hsl(220 25% 18% / 0.7));
+    --gradient-glow: radial-gradient(circle at 50% 0%, hsl(200 100% 50% / 0.3), transparent 70%);
+    
+    /* Shadows and effects */
+    --shadow-glow: 0 0 40px hsl(200 100% 50% / 0.3);
+    --shadow-card: 0 8px 32px hsl(220 30% 5% / 0.4);
+    --shadow-intense: 0 25px 50px hsl(200 100% 50% / 0.4);
+    
+    /* Animation timings */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 0 0% 98%;
 
@@ -101,5 +129,58 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* Import Inter font */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+}
+
+@layer components {
+  /* Glassmorphism card component */
+  .glass-card {
+    @apply bg-gradient-to-br from-card/90 to-card/70 backdrop-blur-xl border border-card-border/30 rounded-xl;
+    box-shadow: var(--shadow-card), inset 0 1px 0 hsl(210 15% 95% / 0.1);
+  }
+
+  /* Glowing accent elements */
+  .glow-accent {
+    @apply bg-primary text-primary-foreground;
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Performance metric cards */
+  .metric-card {
+    @apply glass-card p-6 transition-all duration-300 hover:scale-105 hover:shadow-lg;
+    background: var(--gradient-card);
+  }
+
+  /* Interactive chart containers */
+  .chart-container {
+    @apply glass-card p-4 min-h-[300px] relative overflow-hidden;
+    background: var(--gradient-card);
+  }
+
+  /* Animated buttons */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-lg font-semibold;
+    @apply transition-all duration-300 hover:scale-105 active:scale-95;
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Performance indicators */
+  .indicator-good {
+    @apply text-success;
+    text-shadow: 0 0 10px hsl(120 60% 50% / 0.5);
+  }
+
+  .indicator-warning {
+    @apply text-warning;
+    text-shadow: 0 0 10px hsl(45 95% 55% / 0.5);
+  }
+
+  .indicator-poor {
+    @apply text-destructive;
+    text-shadow: 0 0 10px hsl(0 75% 55% / 0.5);
   }
 }
